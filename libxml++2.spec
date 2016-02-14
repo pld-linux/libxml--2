@@ -1,11 +1,15 @@
+#
+# Conditional build:
+%bcond_without	static_libs	# static library
+#
 Summary:	C++ interface for working with XML files
 Summary(pl.UTF-8):	Interfejs C++ do pracy z plikami XML
-Name:		libxml++
+Name:		libxml++2
 Version:	2.40.1
 Release:	1
 License:	LGPL v2.1
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libxml++/2.40/%{name}-%{version}.tar.xz
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libxml++/2.40/libxml++-%{version}.tar.xz
 # Source0-md5:	377a87bea899f2b4ff62df2418c3d8a6
 URL:		http://libxmlplusplus.sourceforge.net/
 BuildRequires:	autoconf >= 2.59
@@ -20,6 +24,7 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	glibmm >= 2.32.0
 Requires:	libxml2 >= 1:2.7.7
+Obsoletes:	libxml++ < 3.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -36,6 +41,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	glibmm-devel >= 2.32.0
 Requires:	libstdc++-devel >= 6:4.6
 Requires:	libxml2-devel >= 1:2.7.7
+Obsoletes:	libxml++-devel < 3.0
 
 %description devel
 Header files for libxml++.
@@ -48,6 +54,7 @@ Summary:	Static libxml++ libraries
 Summary(pl.UTF-8):	Biblioteka statyczna libxml++
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
+Obsoletes:	libxml++-static-devel < 3.0
 
 %description static
 Static libxml++ libraries.
@@ -59,6 +66,7 @@ Biblioteka statyczna libxml++.
 Summary:	libxml++ API documentation
 Summary(pl.UTF-8):	Dokumentacja API libxml++
 Group:		Documentation
+Obsoletes:	libxml++-apidocs < 3.0
 %if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
 %endif
@@ -74,6 +82,7 @@ Summary:	libxml++ - example programs
 Summary(pl.UTF-8):	libxml++ - przykładowe programy
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
+Obsoletes:	libxml++-examples < 3.0
 
 %description examples
 libxml++ - example programs.
@@ -82,12 +91,11 @@ libxml++ - example programs.
 libxml++ - przykładowe programy.
 
 %prep
-%setup -q
+%setup -q -n libxml++-%{version}
 
 %build
 %configure \
-	--enable-api-exceptions \
-	--enable-static
+	%{?with_static_libs:--enable-static}
 %{__make}
 
 %install
@@ -120,14 +128,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/libxml++-2.6
 %{_pkgconfigdir}/libxml++-2.6.pc
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libxml++-2.6.a
+%endif
 
 %files apidocs
 %defattr(644,root,root,755)
 %{_datadir}/devhelp/books/libxml++-2.6
-%{_docdir}/%{name}-2.6
+%{_docdir}/libxml++-2.6
 
 %files examples
 %defattr(644,root,root,755)
