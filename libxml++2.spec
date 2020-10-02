@@ -5,21 +5,23 @@
 Summary:	C++ interface for working with XML files
 Summary(pl.UTF-8):	Interfejs C++ do pracy z plikami XML
 Name:		libxml++2
-Version:	2.40.1
+Version:	2.42.0
 Release:	1
 License:	LGPL v2.1
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libxml++/2.40/libxml++-%{version}.tar.xz
-# Source0-md5:	377a87bea899f2b4ff62df2418c3d8a6
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libxml++/2.42/libxml++-%{version}.tar.xz
+# Source0-md5:	1abc3b5b56bf7b3dfbe743cd1496550d
 URL:		http://libxmlplusplus.sourceforge.net/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.11
+BuildRequires:	doxygen >= 1:1.8.9
 BuildRequires:	glibmm-devel >= 2.32.0
-BuildRequires:	libstdc++-devel >= 6:4.6
+BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2.6
 BuildRequires:	libxml2-devel >= 1:2.7.7
-BuildRequires:	mm-common >= 0.9.8
+BuildRequires:	mm-common >= 0.9.10
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	glibmm >= 2.32.0
@@ -67,9 +69,7 @@ Summary:	libxml++ API documentation
 Summary(pl.UTF-8):	Dokumentacja API libxml++
 Group:		Documentation
 Obsoletes:	libxml++-apidocs < 3.0
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description apidocs
 libxml++ API documentation.
@@ -94,7 +94,14 @@ libxml++ - przykładowe programy.
 %setup -q -n libxml++-%{version}
 
 %build
+mm-common-prepare --copy --force
+%{__libtoolize}
+%{__aclocal} -I build
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
+	--disable-silent-rules \
 	%{?with_static_libs:--enable-static}
 %{__make}
 
