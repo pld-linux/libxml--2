@@ -69,7 +69,7 @@ Summary:	libxml++ API documentation
 Summary(pl.UTF-8):	Dokumentacja API libxml++
 Group:		Documentation
 Obsoletes:	libxml++-apidocs < 3.0
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description apidocs
 libxml++ API documentation.
