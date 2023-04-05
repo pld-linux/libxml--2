@@ -89,6 +89,7 @@ Summary(pl.UTF-8):	libxml++ - przykładowe programy
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	libxml++-examples < 3.0
+BuildArch:	noarch
 
 %description examples
 libxml++ - example programs.
