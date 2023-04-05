@@ -15,9 +15,10 @@ URL:		http://libxmlplusplus.sourceforge.net/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	docbook-dtd50-xml
-BuildRequires:	docbook-style-xsl-ns
+BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	doxygen >= 1:1.8.9
 BuildRequires:	glibmm-devel >= 2.32.0
+BuildRequires:	graphviz
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2.6
 BuildRequires:	libxml2-devel >= 1:2.7.7
