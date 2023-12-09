@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	static_libs	# static library
+%bcond_without	apidocs		# apidocs
 #
 Summary:	C++ interface for working with XML files
 Summary(pl.UTF-8):	Interfejs C++ do pracy z plikami XML
@@ -14,15 +15,15 @@ Source0:	https://download.gnome.org/sources/libxml++/2.42/libxml++-%{version}.ta
 URL:		http://libxmlplusplus.sourceforge.net/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.11
-BuildRequires:	docbook-dtd50-xml
-BuildRequires:	docbook-style-xsl-nons
-BuildRequires:	doxygen >= 1:1.8.9
+%{?with_apidocs:BuildRequires:	docbook-dtd50-xml}
+%{?with_apidocs:BuildRequires:	docbook-style-xsl-nons}
+%{?with_apidocs:BuildRequires:	doxygen >= 1:1.8.9}
 BuildRequires:	glibmm-devel >= 2.32.0
-BuildRequires:	graphviz
+%{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2.6
 BuildRequires:	libxml2-devel >= 1:2.7.7
-BuildRequires:	libxslt-progs
+%{?with_apidocs:BuildRequires:	libxslt-progs}
 BuildRequires:	mm-common >= 0.9.10
 BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3
@@ -109,6 +110,7 @@ mm-common-prepare --copy --force
 %{__automake}
 %configure \
 	--disable-silent-rules \
+	%{!?with_apidocs:--disable-documentation} \
 	%{?with_static_libs:--enable-static}
 %{__make}
 
@@ -148,10 +150,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libxml++-2.6.a
 %endif
 
+%if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
 %{_datadir}/devhelp/books/libxml++-2.6
 %{_docdir}/libxml++-2.6
+%endif
 
 %files examples
 %defattr(644,root,root,755)
